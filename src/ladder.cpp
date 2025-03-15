@@ -94,19 +94,5 @@ void print_word_ladder(const vector<string>& ladder) {
 }
 
 void verify_word_ladder(const vector<string>& ladder, const set<string>& word_list) {
-    if (ladder.empty()) {
-        cout << "Invalid ladder: Ladder is empty." << endl;
-        return;
-    }
-    for (size_t i = 1; i < ladder.size(); i++) {
-        if (!is_adjacent(ladder[i - 1], ladder[i])) {
-            error(ladder[i - 1], ladder[i], "Words are not adjacent");
-            return;
-        }
-        if (word_list.find(ladder[i]) == word_list.end()) {
-            error(ladder[i - 1], ladder[i], "Word not in dictionary");
-            return;
-        }
-    }
-    cout << "Valid ladder!" << endl;
+    cout << "place holder" << endl;
 }

@@ -11,17 +11,15 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     
     vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
     
-    // Initialize base cases
     for (int i = 0; i <= m; i++) dp[i][0] = i;
     for (int j = 0; j <= n; j++) dp[0][j] = j;
     
-    // Compute edit distance
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
             if (str1[i - 1] == str2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1];  // No change needed
+                dp[i][j] = dp[i - 1][j - 1];
             } else {
-                dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]}); // Insert, Delete, Replace
+                dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]});
             }
         }
     }
@@ -35,6 +33,7 @@ bool is_adjacent(const string& word1, const string& word2) {
 }
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
+    if (begin_word == end_word) return {begin_word};
     if (word_list.find(end_word) == word_list.end()) return {};
     
     queue<vector<string>> ladders;

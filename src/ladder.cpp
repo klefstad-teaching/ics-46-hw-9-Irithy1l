@@ -1,5 +1,9 @@
 #include "ladder.h"
 
+void error(string word1, string word2, string msg) {
+    cerr << "Error: " << msg << " (" << word1 << " -> " << word2 << ")" << endl;
+}
+
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
     if (str1.length() != str2.length()) return false;
     int count = 0;

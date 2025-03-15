@@ -1,32 +1,33 @@
 #include "ladder.h"
+#include <algorithm>
 
 void error(string word1, string word2, string msg) {
     cerr << "Error: " << msg << " (" << word1 << " -> " << word2 << ")" << endl;
 }
 
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
-    int len1 = str1.length(), len2 = str2.length();
+    int m = str1.size();
+    int n = str2.size();
     
-    if (abs(len1 - len2) > d) return false;
-
-    int count = 0, i = 0, j = 0;
-
-    while (i < len1 && j < len2) {
-        if (str1[i] != str2[j]) {
-            count++;
-            if (count > d) return false;
-
-            if (len1 > len2) i++;
-            else if (len1 < len2) j++;
-            else { i++; j++; }
-        } else {
-            i++; j++;
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    
+    // Initialize base cases
+    for (int i = 0; i <= m; i++) dp[i][0] = i;
+    for (int j = 0; j <= n; j++) dp[0][j] = j;
+    
+    // Compute edit distance
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (str1[i - 1] == str2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];  // No change needed
+            } else {
+                dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]}); // Insert, Delete, Replace
+            }
         }
     }
     
-    count += (len1 - i) + (len2 - j);
-    
-    return count == d;
+    return dp[m][n] <= d;
+
 }
 
 bool is_adjacent(const string& word1, const string& word2) {
